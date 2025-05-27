@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
 class EditItemDialog extends StatefulWidget {
-  const EditItemDialog({super.key, required this.name, required this.quantity});
+  const EditItemDialog({
+    super.key,
+    required this.initialName,
+    required this.initialQty,
+  });
 
-  final String name;
-  final String quantity;
+  final String initialName;
+  final String initialQty;
 
+  /// Utiliza esta helper estática para abrir el diálogo y
+  /// obtener `(nuevoNombre, nuevaCant)` o `null` si se canceló.
   static Future<(String, String)?> show(
-      BuildContext context, String name, String qty) {
+    BuildContext ctx,
+    String name,
+    String qty,
+  ) {
     return showDialog<(String, String)>(
-      context: context,
-      builder: (_) => EditItemDialog(name: name, quantity: qty),
+      context: ctx,
+      builder: (_) => EditItemDialog(initialName: name, initialQty: qty),
     );
   }
 
@@ -19,8 +28,8 @@ class EditItemDialog extends StatefulWidget {
 }
 
 class _EditItemDialogState extends State<EditItemDialog> {
-  late final _name = TextEditingController(text: widget.name);
-  late final _qty = TextEditingController(text: widget.quantity);
+  late final _name = TextEditingController(text: widget.initialName);
+  late final _qty = TextEditingController(text: widget.initialQty);
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +38,28 @@ class _EditItemDialogState extends State<EditItemDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(controller: _name, decoration: const InputDecoration(labelText: 'Nombre')),
-          TextField(controller: _qty, decoration: const InputDecoration(labelText: 'Cantidad')),
+          TextField(
+            controller: _name,
+            decoration: const InputDecoration(labelText: 'Nombre'),
+            autofocus: true,
+          ),
+          TextField(
+            controller: _qty,
+            decoration: const InputDecoration(labelText: 'Cantidad'),
+          ),
         ],
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancelar'),
+        ),
         ElevatedButton(
-          onPressed: () => Navigator.pop(context, (_name.text, _qty.text)),
+          onPressed: () =>
+              Navigator.pop(context, (_name.text, _qty.text)),
           child: const Text('Guardar'),
         ),
       ],
     );
   }
 }
-
