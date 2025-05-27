@@ -20,9 +20,13 @@ ShoppingItem _$ShoppingItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ShoppingItem {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get name => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get quantity => throw _privateConstructorUsedError;
+  @HiveField(3)
   bool get done => throw _privateConstructorUsedError;
 
   /// Serializes this ShoppingItem to a JSON map.
@@ -41,7 +45,11 @@ abstract class $ShoppingItemCopyWith<$Res> {
           ShoppingItem value, $Res Function(ShoppingItem) then) =
       _$ShoppingItemCopyWithImpl<$Res, ShoppingItem>;
   @useResult
-  $Res call({String id, String name, String quantity, bool done});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String quantity,
+      @HiveField(3) bool done});
 }
 
 /// @nodoc
@@ -93,7 +101,11 @@ abstract class _$$ShoppingItemImplCopyWith<$Res>
       __$$ShoppingItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String quantity, bool done});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String quantity,
+      @HiveField(3) bool done});
 }
 
 /// @nodoc
@@ -139,24 +151,28 @@ class __$$ShoppingItemImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ShoppingItemImpl extends _ShoppingItem {
   const _$ShoppingItemImpl(
-      {required this.id,
-      required this.name,
-      this.quantity = '',
-      this.done = false})
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.name,
+      @HiveField(2) this.quantity = '',
+      @HiveField(3) this.done = false})
       : super._();
 
   factory _$ShoppingItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ShoppingItemImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String name;
   @override
   @JsonKey()
+  @HiveField(2)
   final String quantity;
   @override
   @JsonKey()
+  @HiveField(3)
   final bool done;
 
   @override
@@ -198,22 +214,26 @@ class _$ShoppingItemImpl extends _ShoppingItem {
 
 abstract class _ShoppingItem extends ShoppingItem {
   const factory _ShoppingItem(
-      {required final String id,
-      required final String name,
-      final String quantity,
-      final bool done}) = _$ShoppingItemImpl;
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String name,
+      @HiveField(2) final String quantity,
+      @HiveField(3) final bool done}) = _$ShoppingItemImpl;
   const _ShoppingItem._() : super._();
 
   factory _ShoppingItem.fromJson(Map<String, dynamic> json) =
       _$ShoppingItemImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get name;
   @override
+  @HiveField(2)
   String get quantity;
   @override
+  @HiveField(3)
   bool get done;
 
   /// Create a copy of ShoppingItem

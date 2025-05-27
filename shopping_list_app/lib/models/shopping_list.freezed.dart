@@ -20,8 +20,11 @@ ShoppingList _$ShoppingListFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ShoppingList {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get title => throw _privateConstructorUsedError;
+  @HiveField(2)
   List<ShoppingItem> get items => throw _privateConstructorUsedError;
 
   /// Serializes this ShoppingList to a JSON map.
@@ -40,7 +43,10 @@ abstract class $ShoppingListCopyWith<$Res> {
           ShoppingList value, $Res Function(ShoppingList) then) =
       _$ShoppingListCopyWithImpl<$Res, ShoppingList>;
   @useResult
-  $Res call({String id, String title, List<ShoppingItem> items});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String title,
+      @HiveField(2) List<ShoppingItem> items});
 }
 
 /// @nodoc
@@ -87,7 +93,10 @@ abstract class _$$ShoppingListImplCopyWith<$Res>
       __$$ShoppingListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, List<ShoppingItem> items});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String title,
+      @HiveField(2) List<ShoppingItem> items});
 }
 
 /// @nodoc
@@ -128,9 +137,9 @@ class __$$ShoppingListImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ShoppingListImpl extends _ShoppingList {
   const _$ShoppingListImpl(
-      {required this.id,
-      required this.title,
-      final List<ShoppingItem> items = const <ShoppingItem>[]})
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.title,
+      @HiveField(2) final List<ShoppingItem> items = const <ShoppingItem>[]})
       : _items = items,
         super._();
 
@@ -138,12 +147,15 @@ class _$ShoppingListImpl extends _ShoppingList {
       _$$ShoppingListImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String title;
   final List<ShoppingItem> _items;
   @override
   @JsonKey()
+  @HiveField(2)
   List<ShoppingItem> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
@@ -188,19 +200,22 @@ class _$ShoppingListImpl extends _ShoppingList {
 
 abstract class _ShoppingList extends ShoppingList {
   const factory _ShoppingList(
-      {required final String id,
-      required final String title,
-      final List<ShoppingItem> items}) = _$ShoppingListImpl;
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String title,
+      @HiveField(2) final List<ShoppingItem> items}) = _$ShoppingListImpl;
   const _ShoppingList._() : super._();
 
   factory _ShoppingList.fromJson(Map<String, dynamic> json) =
       _$ShoppingListImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get title;
   @override
+  @HiveField(2)
   List<ShoppingItem> get items;
 
   /// Create a copy of ShoppingList
