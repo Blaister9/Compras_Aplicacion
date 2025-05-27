@@ -8,10 +8,14 @@ class HiveShoppingRepository implements IShoppingRepository {
   final Box<ShoppingList> _box = Hive.box<ShoppingList>('lists');
   final _uuid = const Uuid();
 
-  /// Stream que emite primero el contenido actual y luego las actualizaciones
+  // ────────────────────────────────────────────────────────────────
+  // LISTAS
+  // ────────────────────────────────────────────────────────────────
   @override
   Stream<List<ShoppingList>> watchLists() async* {
-    yield _box.values.toList();                                // <-- inicial
+    // Valor inicial
+    yield _box.values.toList();
+    // Y luego cada cambio
     yield* _box.watch().map((_) => _box.values.toList());
   }
 
@@ -22,9 +26,19 @@ class HiveShoppingRepository implements IShoppingRepository {
   }
 
   @override
+  Future<void> renameList(String id, String newTitle) async {
+    final list = _box.get(id);
+    if (list != null) {
+      await _box.put(id, list.copyWith(title: newTitle));
+    }
+  }
+
+  @override
   Future<void> deleteList(String id) => _box.delete(id);
 
-  // Helpers internos
+  // ────────────────────────────────────────────────────────────────
+  // ÍTEMS
+  // ────────────────────────────────────────────────────────────────
   ShoppingList _get(String id) => _box.get(id)!;
   Future<void> _put(ShoppingList list) => _box.put(list.id, list);
 
@@ -36,6 +50,17 @@ class HiveShoppingRepository implements IShoppingRepository {
       ShoppingItem(id: _uuid.v4(), name: name, quantity: quantity)
     ]);
     await _put(updated);
+  }
+
+  @override
+  Future<void> updateItem(
+      String listId, String itemId, String name, String quantity) async {
+    final list = _get(listId);
+    final items = list.items
+        .map((e) =>
+            e.id == itemId ? e.copyWith(name: name, quantity: quantity) : e)
+        .toList();
+    await _put(list.copyWith(items: items));
   }
 
   @override

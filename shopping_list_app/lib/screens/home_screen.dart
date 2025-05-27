@@ -10,10 +10,12 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.watch(shoppingRepoProvider);
+
     return StreamBuilder<List<ShoppingList>>(
       stream: repo.watchLists(),
       builder: (context, snapshot) {
         final lists = snapshot.data ?? [];
+
         return Scaffold(
           appBar: AppBar(title: const Text('Mis listas')),
           body: ListView.builder(
@@ -22,16 +24,31 @@ class HomeScreen extends ConsumerWidget {
               final l = lists[i];
               return ListTile(
                 title: Text(l.title),
-                subtitle: Text('${l.items.where((e) => !e.done).length} pendientes'),
+                subtitle:
+                    Text('${l.items.where((e) => !e.done).length} pendientes'),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ListDetailScreen(listId: l.id, title: l.title),
+                    builder: (_) =>
+                        ListDetailScreen(listId: l.id, title: l.title),
                   ),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => repo.deleteList(l.id),
+                trailing: PopupMenuButton<String>(
+                  onSelected: (value) async {
+                    if (value == 'rename') {
+                      final title =
+                          await _inputDialog(context, 'Nuevo nombre', l.title);
+                      if (title != null && title.trim().isNotEmpty) {
+                        repo.renameList(l.id, title.trim());
+                      }
+                    } else if (value == 'delete') {
+                      repo.deleteList(l.id);
+                    }
+                  },
+                  itemBuilder: (_) => const [
+                    PopupMenuItem(value: 'rename', child: Text('Renombrar')),
+                    PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+                  ],
                 ),
               );
             },
@@ -50,8 +67,9 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Future<String?> _inputDialog(BuildContext context, String hint) {
-    final controller = TextEditingController();
+  Future<String?> _inputDialog(BuildContext context, String hint,
+      [String initial = '']) {
+    final controller = TextEditingController(text: initial);
     return showDialog<String>(
       context: context,
       builder: (c) => AlertDialog(
