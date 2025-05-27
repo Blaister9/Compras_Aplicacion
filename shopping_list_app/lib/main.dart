@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'screens/home_screen.dart';
+
 
 void main() => runApp(const ProviderScope(child: MyApp()));
 
@@ -12,10 +14,10 @@ class MyApp extends StatelessWidget {
     final router = GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(path: '/', builder: (_, __) => const SplashScreen()),
-        GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
+        GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
       ],
     );
+
 
     return MaterialApp.router(
       title: 'Shopping List MVP',
